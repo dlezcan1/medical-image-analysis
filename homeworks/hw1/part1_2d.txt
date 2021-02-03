@@ -1,0 +1,2 @@
+gray matter voxel count: 202195.000000
+white matter voxel count: 143277.000000
