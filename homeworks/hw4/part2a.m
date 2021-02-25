@@ -34,7 +34,7 @@ imagesc(img_fixed);
 colormap('gray'); colorbar;
 axis equal;
 title('Corrected image');
-saveas(fig_i, 'results/part2a_i-fixed.png');
+saveas(fig_i2, 'results/part2a_i-fixed.png');
 disp('Saved figure: results/part2a_i-fixed.png');
 
 %% Part ii
