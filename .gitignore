@@ -1,4 +1,4 @@
-# Windows default autosave extension
+5~# Windows default autosave extension
 *.asv
 
 # OSX / *nix default autosave extension
@@ -31,4 +31,4 @@ codegen/
 octave-workspace
 
 ## Project data set
-projects/data
+projects/project1/data
