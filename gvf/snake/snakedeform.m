@@ -42,6 +42,8 @@ A = A + diag(e(1:N-2),2) + diag(e(N-1:N),-(N-2));
 invAI = inv(A + gamma * diag(ones(1,N)));
 
 for count = 1:ITER,
+   y(y < 1) = 1;
+   x(x < 1) = 1;
    vfx = interp2(fx,x,y,'*linear');
    vfy = interp2(fy,x,y,'*linear');
 
