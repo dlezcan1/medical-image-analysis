@@ -4,9 +4,10 @@
 %
 % - written by: Dimitri Lezcano
 
-function [nii_img, nii_info] = nifti_imagereader(filename, norm_method)
+function [nii_img, nii_info] = nifti_imagereader(filename, sizeout, norm_method)
     arguments
         filename string;
+        sizeout (3,1) {mustBeInteger};
         norm_method string = 'none';
     end
     nii_info = niftiinfo(filename);
@@ -21,7 +22,8 @@ function [nii_img, nii_info] = nifti_imagereader(filename, norm_method)
     end
     
     % pad nifti 3D image
-    nii_img = padarray(nii_img, [0, 0, 3]); % [216, 256, 16]
+%     nii_img = padarray(nii_img, [0, 0, 0]); % [216, 256, 16]
+    nii_img = imresize3(nii_img, sizeout);
    
     
 end

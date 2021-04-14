@@ -4,13 +4,15 @@
 %
 % - written by: Dimitri Lezcano
 
-function [nii_gt, nii_info] = nifti_gtreader(filename)
+function [nii_gt, nii_info] = nifti_gtreader(filename, sizeout)
     arguments
         filename string;
+        sizeout (3,1) {mustBeInteger};
     end
     
     nii_info = niftiinfo(filename);
     nii_gt = niftiread(filename);
     
-    nii_gt = padarray(nii_gt, [0, 0, 3]);
+    nii_gt = imresize3(nii_gt, sizeout);
+    
 end

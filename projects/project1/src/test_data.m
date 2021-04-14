@@ -5,11 +5,12 @@
 % - written by: Dimitri Lezcano
 
 %% Set-up
-data_dir = "../data/training/";
+data_dir = "../data/";
 patient_num = 1;
 
 img_maxs = zeros(100, 3);
 img_mins = zeros(size(img_maxs));
+img_stds = zeros(size(img_maxs));
 for patient_num = 1:100
     % patient directory
     patient_dir = data_dir + sprintf("patient%03d/", patient_num);
@@ -45,13 +46,19 @@ for patient_num = 1:100
     img_mins(patient_num, 2) = min(patient_f1, [], 'all');
     img_mins(patient_num, 3) = min(patient_f2, [], 'all');
     
+    img_stds(patient_num, 1) = std(double(patient_4d), 0, 'all');
+    img_stds(patient_num, 2) = std(double(patient_f1), 0, 'all');
+    img_stds(patient_num, 3) = std(double(patient_f2), 0, 'all');
 end
 
 img_maxs = array2table(img_maxs, 'VariableNames', {'4d', 'f01', 'f12'});
 img_mins = array2table(img_mins, 'VariableNames', {'4d', 'f01', 'f12'});
+img_stds = array2table(img_stds, 'VariableNames', {'4d', 'f01', 'f12'});
 
 %%
 disp('max');
 summary(img_maxs)
 disp('min');
 summary(img_mins)
+disp('std');
+summary(img_stds)
