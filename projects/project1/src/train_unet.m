@@ -7,12 +7,12 @@
 function train_unet
 %% Set-up
 % start diary
-diary ../models/checkpoints/unet_train.log
+% diary ../models/checkpoints/unet_train.log
 
 % training options
 initialLearningRate = 0.05;
-maxEpochs = 150;
-minibatchSize = 2;
+maxEpochs = 250;
+minibatchSize = 3;
 l2reg = 0.0001;
 
 
@@ -21,7 +21,7 @@ img_size = [216, 256, 16, 1] % pad each image on left and right by 3
 % image input size is going to be [216, 256, 16, 1, N] | N is the number of
 %    samples
 numclasses = 4;
-encoder_depth = 2;
+encoder_depth = 3;
 
 % UNet
 net = unet3dLayers(img_size, numclasses, 'EncoderDepth', encoder_depth, ...
@@ -102,7 +102,7 @@ options = trainingOptions('sgdm',...
 disp("Training UNet...");
 modelDateTime = string(datetime('now','Format',"yyyy-MM-dd-HH-mm-ss"));
 [net_train,info] = trainNetwork(train_tf_ds,net,options);
-save(fullfile('../models', strcat("trained3DUNet-",modelDateTime,"-Epoch-",num2str(options.MaxEpochs),".mat")),'net_train');
+save(fullfile('../models', strcat("trained3DUNet-deeper-",modelDateTime,"-Epoch-",num2str(options.MaxEpochs),".mat")),'net_train');
 disp("UNet trained. Check models directory");
 
 
