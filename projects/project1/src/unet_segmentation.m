@@ -44,6 +44,7 @@ function unet_segmentation
         pat_i_es_outfile = fullfile(out_dir, sprintf(es_base, pat_i_num));
         
         % read in ED and ES files
+        img_size = size(niftiread(pat_i_ed_file));
         pat_i_ed = imgreader(pat_i_ed_file);
         pat_i_es = imgreader(pat_i_es_file);
         pat_i_edes_input = cat(5, pat_i_ed, pat_i_es);
@@ -52,13 +53,21 @@ function unet_segmentation
         pat_i_edes_class = semanticseg(pat_i_edes_input, unet_train);
 %         [pat_i_edes_classnum_v, gN] = grp2idx(pat_i_edes_class(:));
 %         pat_i_edes_classnum = reshape(pat_i_edes_classnum_v, size(pat_i_edes_class);
-        pat_i_edes_classnum = reshape(grp2idx(pat_i_edes_class(:)), size(pat_i_edes_class)) - 1;
+%         pat_i_edes_classnum = reshape(grp2idx(pat_i_edes_class(:)), size(pat_i_edes_class));
+        
+        
+        % resize the image
+        pat_i_ed_classnum = imresize3(pat_i_edes_class(:,:,:,1), img_size);
+        pat_i_ed_classnum = reshape(grp2idx(pat_i_ed_classnum(:)), img_size) - 1;
+        pat_i_es_classnum = imresize3(pat_i_edes_class(:,:,:,2), img_size);
+        pat_i_es_classnum = reshape(grp2idx(pat_i_es_classnum(:)), img_size) - 1;
+        
         
         % save the output files
-        niftiwrite(pat_i_edes_classnum(:,:,:,1), pat_i_ed_outfile);
+        niftiwrite(double(pat_i_ed_classnum), pat_i_ed_outfile);
         disp("Saved niftimage: " + pat_i_ed_outfile);
         
-        niftiwrite(pat_i_edes_classnum(:,:,:,2), pat_i_es_outfile);
+        niftiwrite(double(pat_i_es_classnum), pat_i_es_outfile);
         disp("Saved niftimage: " + pat_i_es_outfile);
         
         disp(" ");
