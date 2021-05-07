@@ -4,13 +4,13 @@ function unet_segmentation
     %% Set-up
     % saving parameters
     patient_base = "patient%03d";
-    ed_base = patient_base + "_ED.nii.gz";
-    es_base = patient_base + "_ES.nii.gz";
+    ed_base = patient_base + "_ED";
+    es_base = patient_base + "_ES";
     frame_base = patient_base + "_frame%02d.nii.gz";
     info_file = "Info.cfg";
     
 %     % Load UNet
-%     unet_train = load('../models/trained3DUNet-deeper-2021-04-26-12-31-54-Epoch-250.mat').net_train;
+    unet_train = load('../models/trained3DUNet-deeper-2021-04-26-12-31-54-Epoch-250.mat').net_train;
     imgreader = @(file) nifti_imagereader(file, unet_train.Layers(1).InputSize(1:3));
 
     % Data and output directories
@@ -64,10 +64,10 @@ function unet_segmentation
         
         
         % save the output files
-        niftiwrite(double(pat_i_ed_classnum), pat_i_ed_outfile);
+        niftiwrite(double(pat_i_ed_classnum), pat_i_ed_outfile, 'compressed', true);
         disp("Saved niftimage: " + pat_i_ed_outfile);
         
-        niftiwrite(double(pat_i_es_classnum), pat_i_es_outfile);
+        niftiwrite(double(pat_i_es_classnum), pat_i_es_outfile, 'compressed', true);
         disp("Saved niftimage: " + pat_i_es_outfile);
         
         disp(" ");
